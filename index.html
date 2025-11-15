@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="th">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เครื่องมือช่วยแต่งโคลงสี่สุภาพ</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            box-sizing: border-box;
+            font-family: 'Kanit', 'Sarabun', 'Noto Sans Thai', Arial, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            color: #2d3748;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            min-height: 100vh;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            padding: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            max-height: 80px;
+            max-width: 200px;
+            height: auto;
+            width: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        .header h1, .header p {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .developer-info {
+            margin-top: 8px !important;
+            font-size: 0.9rem !important;
+            opacity: 0.8 !important;
+            font-weight: 500;
+        }
+
+        .legend {
+            background: #f7fafc;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .legend h3 {
+            margin: 0 0 10px 0;
+            color: #2d3748;
+            font-size: 1rem;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .bat-container {
+            margin-bottom: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #4299e1;
+        }
+
+        .bat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .bat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .bat-status {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .bat-layout {
+            display: grid;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .bat1-layout, .bat3-layout {
+            grid-template-columns: 2fr 1fr 1fr;
+        }
+
+        .bat2-layout {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .bat4-layout {
+            grid-template-columns: 2fr 1.5fr;
+        }
+
+        .warok-section {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .warok-header {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2d3748;
+            text-align: center;
+            background: #f7fafc;
+            padding: 6px 10px;
+            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .warok-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .word-grid {
+            display: grid;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .word-grid-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .word-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .word-grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .word-input {
+            padding: 8px 6px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            text-align: center;
+            font-family: inherit;
+            transition: all 0.2s;
+            min-height: 36px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .word-input:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .word-input.normal {
+            background-color: #ebf8ff;
+            border-color: #4299e1;
+        }
+
+        .word-input.ek-required {
+            background-color: #fed7d7;
+            border-color: #e53e3e;
+        }
+
+        .word-input.to-required {
+            background-color: #e9d8fd;
+            border-color: #805ad5;
+        }
+
+        .word-input.saroy-position {
+            background-color: #fefcbf;
+            border-color: #d69e2e;
+        }
+
+        .word-input.send-samphus {
+            border: 3px solid #fd7f28;
+            box-shadow: 0 0 0 2px rgba(253, 127, 40, 0.2);
+        }
+
+        .word-input.receive-samphus {
+            border: 3px solid #805ad5;
+            box-shadow: 0 0 0 2px rgba(128, 90, 213, 0.2);
+        }
+
+        .word-input.valid {
+            background-color: #c6f6d5;
+            border-color: #38a169;
+        }
+
+        .word-input.invalid {
+            background-color: #fed7d7;
+            border-color: #e53e3e;
+        }
+
+        .validation-icon {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .validation-tooltip {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: #2d3748;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 1000;
+            display: none;
+            margin-bottom: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            max-width: 250px;
+            white-space: normal;
+            line-height: 1.3;
+        }
+
+        .validation-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 10px;
+            border: 5px solid transparent;
+            border-top-color: #2d3748;
+        }
+
+        .word-container {
+            position: relative;
+        }
+
+        .result-section {
+            margin-top: 30px;
+            background: #f0fff4;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #38a169;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2f855a;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
+            color: #2d3748;
+            white-space: pre-line;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            user-select: text;
+            cursor: text;
+        }
+
+        .result-text::selection {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+
+
+        @media (max-width: 1024px) {
+            .container {
+                width: 100%;
+                max-width: none;
+                box-shadow: none;
+            }
+            
+            .bat1-layout, .bat3-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .bat2-layout, .bat4-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .word-grid-5 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .word-grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .word-grid-4 {
+                grid-template-columns: repeat(2, 2fr);
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .bat-container {
+                padding: 12px;
+            }
+
+
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header"><img src="https://img5.pic.in.th/file/secure-sv1/logo-vichakarngo-6.png" alt="โลโก้วิชาการโก" class="logo" onerror="this.style.display='none'; this.alt='โลโก้ไม่สามารถโหลดได้';">
+    <h1 id="app-title">เครื่องมือช่วยแต่งโคลงสี่สุภาพ</h1>
+    <p id="instruction-text">กรอกคำในแต่ละช่องตามโครงสร้างโคลงสี่สุภาพ</p>
+    <p class="developer-info">👨‍💻 ผู้พัฒนา ครูนนทพัทธ์ หิรัญเรือง</p>
+   </div>
+   <div style="background: #f7fafc; padding: 15px; text-align: center; border-bottom: 1px solid #e2e8f0;"><a href="https://th.wikipedia.org/wiki/%E0%B9%82%E0%B8%84%E0%B8%A5%E0%B8%87%E0%B8%AA%E0%B8%B5%E0%B9%88%E0%B8%AA%E0%B8%B8%E0%B8%A0%E0%B8%B2%E0%B8%9E" target="_blank" rel="noopener noreferrer" style="display: inline-block; transition: transform 0.2s ease;"> <img src="https://img2.pic.in.th/pic/logo-vichakarngo-10.png" alt="ข้อมูลเพิ่มเติมเกี่ยวกับโคลงสี่สุภาพ" style="max-height: 60px; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer;" onerror="this.src=''; this.alt='ภาพไม่สามารถโหลดได้'; this.style.display='none';"> </a>
+   </div>
+   <div class="legend">
+    <div style="background: #e6fffa; border: 1px solid #38b2ac; border-radius: 6px; padding: 10px; margin-bottom: 15px; font-size: 0.9rem; color: #234e52;"><strong>💡 เคล็ดลับ:</strong> เมื่อพิมพ์คำแล้วจะมีเครื่องหมาย ✅ หรือ ❌ ปรากฏ เอาเมาส์ไปชี้ที่เครื่องหมายจะเห็นคำอธิบายเหตุผลว่าทำไมถูกหรือผิด
+    </div>
+    <div style="background: #fff5f5; border: 2px solid #fc8181; border-radius: 8px; padding: 15px; margin-bottom: 15px; font-size: 0.9rem; color: #2d3748;">
+     <div style="font-weight: 700; color: #e53e3e; margin-bottom: 10px; font-size: 1rem;">
+      ⚠️ ข้อควรจำ คำสร้อย ไม่บังคับ
+     </div>
+     <div style="margin-bottom: 8px;">
+      • ถ้าได้ใจความครบก็ไม่ต้องใส่ ต้องมี 2 คำ
+     </div>
+     <div style="margin-bottom: 8px;">
+      • ถ้าจะใส่ใช้ได้เฉพาะ <strong>บาทที่ 1 และ 3</strong>
+     </div>
+     <div style="margin-bottom: 12px;">
+      • ตำแหน่งคำสร้อยมีได้ 2 คำ คำแรกเป็นคำสุภาพ คำที่สองเน้นตามขนบโบราณ (พ่อ แม่ พี่ เอย นา บารนี ฯลฯ)
+     </div>
+     <div style="background: #f7fafc; border-radius: 6px; padding: 10px; border-left: 4px solid #4299e1;">
+      <div style="font-weight: 700; color: #2b6cb0; margin-bottom: 5px;">
+       📌 สรุปสั้น ๆ
+      </div>
+      <div style="font-size: 0.85rem; line-height: 1.4;"><strong>คำสร้อย</strong> = เติมท้ายบาท 1 และ 3 เพื่อให้ใจความครบ<br>
+        มี 2 คำ: คำสุภาพ + คำลงท้าย (พ่อ แม่ พี่ เอย นา ฯลฯ)
+      </div>
+     </div>
+    </div>
+    <h3>คำอธิบายสัญลักษณ์</h3>
+    <div class="legend-grid">
+     <div class="legend-item">
+      <div class="legend-color" style="background: #ebf8ff; border-color: #4299e1;"></div><span>ไม่บังคับรูปวรรณยุกต์</span>
+     </div>
+     <div class="legend-item">
+      <div class="legend-color" style="background: #fed7d7; border-color: #e53e3e;"></div><span>บังคับเอก (หรือคำตาย)</span>
+     </div>
+     <div class="legend-item">
+      <div class="legend-color" style="background: #e9d8fd; border-color: #805ad5;"></div><span>บังคับโท</span>
+     </div>
+     <div class="legend-item">
+      <div class="legend-color" style="background: #fefcbf; border-color: #d69e2e;"></div><span>ตำแหน่งคำสร้อย</span>
+     </div>
+     <div class="legend-item">
+      <div class="legend-color" style="border: 3px solid #fd7f28;"></div><span>ส่งสัมผัส</span>
+     </div>
+     <div class="legend-item">
+      <div class="legend-color" style="border: 3px solid #805ad5;"></div><span>รับสัมผัส</span>
+     </div>
+    </div>
+   </div>
+   <div class="content"><!-- บาทที่ 1 -->
+    <div class="bat-container">
+     <div class="bat-header">
+      <div class="bat-title">
+       บาทที่ 1
+      </div>
+      <div class="bat-status" id="bat1-status">
+       ⏳ รอการกรอก
+      </div>
+     </div>
+     <div class="bat-layout bat1-layout">
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหน้า (5 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-5">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="1" data-warok="1" data-word="1" placeholder="คำที่ 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="1" data-warok="1" data-word="2" placeholder="คำที่ 2">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="1" data-warok="1" data-word="3" placeholder="คำที่ 3">
+         </div>
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="1" data-warok="1" data-word="4" placeholder="คำที่ 4 (เอก)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input to-required" data-bat="1" data-warok="1" data-word="5" placeholder="คำที่ 5 (โท)">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหลัง (2 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-2">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="1" data-warok="2" data-word="1" placeholder="คำที่ 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal send-samphus" data-bat="1" data-warok="2" data-word="2" placeholder="คำที่ 2 (ส่ง)">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="warok-section">
+       <div class="warok-header">
+        คำสร้อย (2 คำ) - ไม่บังคับ
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-2">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="1" data-warok="3" data-word="1" placeholder="คำสร้อย 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input saroy-position" data-bat="1" data-warok="3" data-word="2" placeholder="คำสร้อย 2">
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- บาทที่ 2 -->
+    <div class="bat-container">
+     <div class="bat-header">
+      <div class="bat-title">
+       บาทที่ 2
+      </div>
+      <div class="bat-status" id="bat2-status">
+       ⏳ รอการกรอก
+      </div>
+     </div>
+     <div class="bat-layout bat2-layout">
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหน้า (5 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-5">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="2" data-warok="1" data-word="1" placeholder="คำที่ 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="2" data-warok="1" data-word="2" placeholder="คำที่ 2 (เอก)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="2" data-warok="1" data-word="3" placeholder="คำที่ 3">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="2" data-warok="1" data-word="4" placeholder="คำที่ 4">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal receive-samphus" data-bat="2" data-warok="1" data-word="5" placeholder="คำที่ 5 (รับ)">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหลัง (2 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-2">
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="2" data-warok="2" data-word="1" placeholder="คำที่ 1 (เอก)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input to-required send-samphus" data-bat="2" data-warok="2" data-word="2" placeholder="คำที่ 2 (โท,ส่ง)">
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- บาทที่ 3 -->
+    <div class="bat-container">
+     <div class="bat-header">
+      <div class="bat-title">
+       บาทที่ 3
+      </div>
+      <div class="bat-status" id="bat3-status">
+       ⏳ รอการกรอก
+      </div>
+     </div>
+     <div class="bat-layout bat3-layout">
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหน้า (5 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-5">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="3" data-warok="1" data-word="1" placeholder="คำที่ 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="3" data-warok="1" data-word="2" placeholder="คำที่ 2">
+         </div>
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="3" data-warok="1" data-word="3" placeholder="คำที่ 3 (เอก)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="3" data-warok="1" data-word="4" placeholder="คำที่ 4">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal receive-samphus" data-bat="3" data-warok="1" data-word="5" placeholder="คำที่ 5 (รับ)">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหลัง (2 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-2">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="3" data-warok="2" data-word="1" placeholder="คำที่ 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="3" data-warok="2" data-word="2" placeholder="คำที่ 2 (เอก)">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="warok-section">
+       <div class="warok-header">
+        คำสร้อย (2 คำ) - ไม่บังคับ
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-2">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="3" data-warok="3" data-word="1" placeholder="คำสร้อย 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input saroy-position" data-bat="3" data-warok="3" data-word="2" placeholder="คำสร้อย 2">
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- บาทที่ 4 -->
+    <div class="bat-container">
+     <div class="bat-header">
+      <div class="bat-title">
+       บาทที่ 4
+      </div>
+      <div class="bat-status" id="bat4-status">
+       ⏳ รอการกรอก
+      </div>
+     </div>
+     <div class="bat-layout bat4-layout">
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหน้า (5 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-5">
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="4" data-warok="1" data-word="1" placeholder="คำที่ 1">
+         </div>
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="4" data-warok="1" data-word="2" placeholder="คำที่ 2 (เอก)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="4" data-warok="1" data-word="3" placeholder="คำที่ 3">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="4" data-warok="1" data-word="4" placeholder="คำที่ 4">
+         </div>
+         <div class="word-container"><input type="text" class="word-input to-required receive-samphus" data-bat="4" data-warok="1" data-word="5" placeholder="คำที่ 5 (โท,รับ)">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="warok-section">
+       <div class="warok-header">
+        วรรคหลัง (4 คำ)
+       </div>
+       <div class="warok-content">
+        <div class="word-grid word-grid-4">
+         <div class="word-container"><input type="text" class="word-input ek-required" data-bat="4" data-warok="2" data-word="1" placeholder="คำที่ 1 (เอก)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input to-required" data-bat="4" data-warok="2" data-word="2" placeholder="คำที่ 2 (โท)">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="4" data-warok="2" data-word="3" placeholder="คำที่ 3">
+         </div>
+         <div class="word-container"><input type="text" class="word-input normal" data-bat="4" data-warok="2" data-word="4" placeholder="คำที่ 4">
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="result-section">
+     <div class="result-title">
+      ผลลัพธ์โคลงสี่สุภาพ
+     </div>
+     <div class="result-text" id="result-text"></div>
+     <div style="text-align: center; margin-top: 15px;"><button id="copy-button" style="background: linear-gradient(135deg, #4299e1, #3182ce); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3); transition: all 0.2s ease; margin-bottom: 10px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(66, 153, 225, 0.4)'" onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 12px rgba(66, 153, 225, 0.3)'"> 📋 คัดลอกผลลัพธ์โคลงสี่สุภาพ </button>
+      <div id="copy-status" style="font-size: 0.9rem; font-weight: 600; margin-top: 8px; min-height: 20px;"></div>
+      <div style="padding: 12px; background: #e6fffa; border: 2px solid #38b2ac; border-radius: 8px; color: #234e52; font-size: 0.95rem; font-weight: 600;">
+       💡 เคล็ดลับ: คลิกปุ่มด้านบนเพื่อคัดลอก หรือลากคลุมข้อความเพื่อคัดลอกเอง
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+        // Default configuration
+        const defaultConfig = {
+            app_title: "เครื่องมือช่วยแต่งโคลงสี่สุภาพ",
+            instruction_text: "กรอกคำในแต่ละช่องตามโครงสร้างโคลงสี่สุภาพ"
+        };
+
+        // Tone checking functions
+        function hasEkTone(word) {
+            return word.includes('่');
+        }
+
+        function hasToTone(word) {
+            return word.includes('้');
+        }
+
+        function isDeadWord(word) {
+            const cleanWord = word.replace(/[่้๊๋์]/g, '');
+            const lastChar = cleanWord.charAt(cleanWord.length - 1);
+            const deadEndings = ['ก', 'ข', 'ค', 'ฆ', 'จ', 'ช', 'ด', 'ต', 'ถ', 'ท', 'ธ', 'ศ', 'ษ', 'ส', 'บ', 'ป', 'พ', 'ฟ', 'ภ'];
+            return deadEndings.includes(lastChar);
+        }
+
+        function isSaroyWord(word) {
+            const standardSaroyWords = ['พ่อ', 'แม่', 'พี่', 'เลย', 'เทอญ', 'นา', 'นอ', 'บารนี', 'รา', 'ฤๅ', 'เนอ', 'ฮา', 'แล', 'ก็ดี', 'แฮ', 'อา', 'เอย', 'เฮย'];
+            return {
+                isStandard: standardSaroyWords.includes(word),
+                isValid: true // ทุกคำถือว่าใช้ได้ แต่จะแสดงหมายเหตุต่างกัน
+            };
+        }
+
+        function getVowelSound(word) {
+            // ตรวจสอบสระผสมก่อน
+            if (word.includes('ไ') || word.includes('ใ') || word.includes('ัย')) return 'ไอ';
+            if (word.includes('เอา')) return 'เอา';
+            if (word.includes('เอ')) return 'เอ';
+            if (word.includes('แอ')) return 'แอ';
+            if (word.includes('โอ')) return 'โอ';
+            
+            // ตรวจสอบสระยาว
+            if (word.includes('อา') || word.includes('า')) return 'อา';
+            if (word.includes('อี') || word.includes('ี')) return 'อี';
+            if (word.includes('อื') || word.includes('ื')) return 'อื';
+            if (word.includes('อู') || word.includes('ู')) return 'อู';
+            
+            // ตรวจสอบสระสั้น
+            if (word.includes('ิ')) return 'อิ';
+            if (word.includes('ุ')) return 'อุ';
+            if (word.includes('ึ')) return 'อึ';
+            if (word.includes('ั')) return 'อะ';
+            if (word.includes('็')) return 'เอาะ';
+            if (word.includes('เ') && !word.includes('เอ') && !word.includes('เอา')) return 'เอะ';
+            if (word.includes('แ') && !word.includes('แอ')) return 'แอะ';
+            if (word.includes('โ') && !word.includes('โอ')) return 'โอะ';
+            
+            // ถ้าไม่พบสระใดๆ ให้เป็นสระอะ (กรณีพิเศษ)
+            return 'อะ';
+        }
+
+        function getFinalConsonantGroup(word) {
+            const lastChar = word.charAt(word.length - 1);
+            const groups = {
+                'ก': 'กก', 'ข': 'กก', 'ค': 'กก', 'ฆ': 'กก',
+                'จ': 'กด', 'ช': 'กด', 'ด': 'กด', 'ต': 'กด', 'ถ': 'กด', 'ท': 'กด', 'ธ': 'กด', 'ศ': 'กด', 'ษ': 'กด', 'ส': 'กด',
+                'บ': 'กบ', 'ป': 'กบ', 'พ': 'กบ', 'ฟ': 'กบ', 'ภ': 'กบ',
+                'น': 'กน', 'ณ': 'กน', 'ร': 'กน', 'ล': 'กน', 'ฬ': 'กน',
+                'ม': 'กม', 'ง': 'กง', 'ย': 'เกย', 'ว': 'เกอว'
+            };
+            return groups[lastChar] || 'กกา';
+        }
+
+        function getVowelAndFinalSound(word) {
+            const cleanWord = word.replace(/[่้๊๋์]/g, '');
+            
+            if (cleanWord.includes('ไ') || cleanWord.includes('ใ') || cleanWord.includes('ัย')) {
+                return { vowel: 'ไอ', finalGroup: 'เกย' };
+            }
+            
+            const vowel = getVowelSound(cleanWord);
+            const finalGroup = getFinalConsonantGroup(cleanWord);
+            
+            return { vowel, finalGroup };
+        }
+
+        function checkSamphus(word1, word2) {
+            if (!word1 || !word2) return false;
+            
+            const sound1 = getVowelAndFinalSound(word1);
+            const sound2 = getVowelAndFinalSound(word2);
+            
+            return sound1.vowel === sound2.vowel && 
+                   sound1.finalGroup === sound2.finalGroup;
+        }
+
+        function validateWord(input) {
+            const word = input.value.trim();
+            if (!word) {
+                input.classList.remove('valid', 'invalid');
+                updateValidationIcon(input, '', '');
+                return null;
+            }
+
+            let isValid = true, message = '';
+
+            if (input.classList.contains('ek-required')) {
+                if (hasEkTone(word)) message = 'ถูกต้อง: เสียงเอก';
+                else if (isDeadWord(word)) message = 'ถูกต้อง: คำตาย';
+                else { isValid = false; message = 'ผิด: ต้องเป็นเอก (่) หรือคำตาย'; }
+            }
+
+            if (input.classList.contains('to-required')) {
+                if (hasToTone(word)) message = 'ถูกต้อง: เสียงโท';
+                else { isValid = false; message = 'ผิด: ต้องเป็นโท (้)'; }
+            }
+
+            if (input.classList.contains('saroy-position')) {
+                const saroyCheck = isSaroyWord(word);
+                if (saroyCheck.isStandard) {
+                    message = 'ถูกต้อง: คำสร้อยมาตรฐาน';
+                } else {
+                    message = 'ถูกต้อง: สร้อยเจตนัง (ไม่ใช่คำสร้อยมาตรฐาน)';
+                }
+                // ทุกคำถือว่าถูกต้อง แต่แสดงหมายเหตุต่างกัน
+            }
+
+            if (input.classList.contains('normal') && !input.classList.contains('send-samphus') && !input.classList.contains('receive-samphus') && !input.classList.contains('saroy-position')) {
+                message = 'ถูกต้อง';
+            }
+
+            input.classList.toggle('valid', isValid);
+            input.classList.toggle('invalid', !isValid);
+            updateValidationIcon(input, isValid ? '✅' : '❌', message);
+            return isValid;
+        }
+
+        function validateAllSamphus() {
+            const s1 = document.querySelector('[data-bat="1"][data-warok="2"][data-word="2"]');
+            const r2 = document.querySelector('[data-bat="2"][data-warok="1"][data-word="5"]');
+            const r3 = document.querySelector('[data-bat="3"][data-warok="1"][data-word="5"]');
+            const s2 = document.querySelector('[data-bat="2"][data-warok="2"][data-word="2"]');
+            const r4 = document.querySelector('[data-bat="4"][data-warok="1"][data-word="5"]');
+            
+            // ตรวจสอบแยกคู่ - ไม่ต้องรอทั้งหมด
+            checkPair(s1, r2);  // บาท1→2
+            checkPair(s1, r3);  // บาท1→3
+            checkPair(r2, r3);  // บาท2↔3
+            checkPair(s2, r4);  // บาท2→4
+        }
+
+        function checkPair(i1, i2) {
+            if (!i1 || !i2) return;
+            
+            const w1 = i1.value.trim();
+            const w2 = i2.value.trim();
+            
+            removeFB(i1); 
+            removeFB(i2);
+            
+            // ถ้าว่างทั้งคู่ไม่ทำอะไร
+            if (!w1 && !w2) return;
+            
+            // ถ้ามีคำใดคำหนึ่งว่าง แสดงรอคำคู่เฉพาะช่องที่มีคำ
+            if (!w1 && w2) {
+                addFB(i2, '⏳ รอคำคู่สัมผัส', 'p');
+                return;
+            }
+            if (w1 && !w2) {
+                addFB(i1, '⏳ รอคำคู่สัมผัส', 'p');
+                return;
+            }
+            
+            // มีคำทั้งสอง ตรวจสอบสัมผัส
+            const ok = checkSamphus(w1, w2);
+            const s1 = getVowelAndFinalSound(w1);
+            const s2 = getVowelAndFinalSound(w2);
+            
+            // ฟังก์ชันจัดรูปแบบการแสดงผล
+            function formatSound(sound) {
+                if (sound.finalGroup === 'กกา') {
+                    return `สระ${sound.vowel}`;
+                } else {
+                    return `สระ${sound.vowel}/แม่${sound.finalGroup}`;
+                }
+            }
+            
+            if (ok) {
+                addFB(i1, `✅ สัมผัส "${w2}" - สระ:${s1.vowel} มาตรา:${s1.finalGroup}`, 'c');
+                addFB(i2, `✅ สัมผัส "${w1}" - สระ:${s2.vowel} มาตรา:${s2.finalGroup}`, 'c');
+            } else {
+                const sound1Formatted = formatSound(s1);
+                const sound2Formatted = formatSound(s2);
+                addFB(i1, `❌ ไม่สัมผัส "${w2}" - "${w1}": ${sound1Formatted} | "${w2}": ${sound2Formatted}`, 'i');
+                addFB(i2, `❌ ไม่สัมผัส "${w1}" - "${w2}": ${sound2Formatted} | "${w1}": ${sound1Formatted}`, 'i');
+            }
+        }
+
+        function addFB(inp, msg, t) {
+            const f = document.createElement('div');
+            f.className = 'samphus-feedback';
+            f.textContent = msg;
+            f.style.cssText = 'margin-top:5px;padding:6px;border-radius:4px;font-size:0.75rem;';
+            
+            if (t === 'c') f.style.cssText += 'background:#d4edda;color:#155724;';
+            else if (t === 'i') f.style.cssText += 'background:#f8d7da;color:#721c24;';
+            else f.style.cssText += 'background:#fff3cd;color:#856404;';
+            
+            inp.parentElement.appendChild(f);
+        }
+
+        function removeFB(inp) {
+            const o = inp.parentElement.querySelector('.samphus-feedback');
+            if (o) o.remove();
+        }
+
+        function updateValidationIcon(input, icon, message) {
+            const container = input.parentElement;
+            let iconElement = container.querySelector('.validation-icon');
+            
+            if (!iconElement) {
+                iconElement = document.createElement('span');
+                iconElement.className = 'validation-icon';
+                container.appendChild(iconElement);
+            }
+            
+            iconElement.textContent = icon;
+            
+            // Add tooltip functionality
+            if (message) {
+                iconElement.title = message;
+                iconElement.style.cursor = 'help';
+                
+                // Create or update tooltip element
+                let tooltip = container.querySelector('.validation-tooltip');
+                if (!tooltip) {
+                    tooltip = document.createElement('div');
+                    tooltip.className = 'validation-tooltip';
+                    container.appendChild(tooltip);
+                }
+                tooltip.textContent = message;
+                
+                // Show tooltip on hover
+                iconElement.addEventListener('mouseenter', () => {
+                    tooltip.style.display = 'block';
+                });
+                iconElement.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+            } else {
+                iconElement.title = '';
+                iconElement.style.cursor = 'default';
+                const tooltip = container.querySelector('.validation-tooltip');
+                if (tooltip) {
+                    tooltip.style.display = 'none';
+                }
+            }
+        }
+
+        function validateSamphus() {
+            // Get samphus words
+            const send1 = document.querySelector('[data-bat="1"][data-warok="2"][data-word="2"]').value.trim();
+            const receive2 = document.querySelector('[data-bat="2"][data-warok="1"][data-word="5"]').value.trim();
+            const receive3 = document.querySelector('[data-bat="3"][data-warok="1"][data-word="5"]').value.trim();
+            const send2 = document.querySelector('[data-bat="2"][data-warok="2"][data-word="2"]').value.trim();
+            const receive4 = document.querySelector('[data-bat="4"][data-warok="1"][data-word="5"]').value.trim();
+
+            // Check first samphus chain (1->2->3)
+            let samphus1Valid = true;
+            if (send1 && receive2) {
+                samphus1Valid = checkSamphus(send1, receive2);
+            }
+            if (send1 && receive3) {
+                samphus1Valid = samphus1Valid && checkSamphus(send1, receive3);
+            }
+
+            // Check second samphus chain (2->4)
+            let samphus2Valid = true;
+            if (send2 && receive4) {
+                samphus2Valid = checkSamphus(send2, receive4);
+            }
+
+            return { samphus1Valid, samphus2Valid };
+        }
+
+        function updateBatStatus() {
+            for (let bat = 1; bat <= 4; bat++) {
+                const inputs = document.querySelectorAll(`[data-bat="${bat}"]`);
+                let allFilled = true;
+                let allValid = true;
+
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        allFilled = false;
+                    }
+                    if (input.classList.contains('invalid')) {
+                        allValid = false;
+                    }
+                });
+
+                const statusElement = document.getElementById(`bat${bat}-status`);
+                if (!allFilled) {
+                    statusElement.textContent = '⏳ รอการกรอก';
+                    statusElement.style.color = '#718096';
+                } else if (!allValid) {
+                    statusElement.textContent = '❌ มีข้อผิดพลาด';
+                    statusElement.style.color = '#e53e3e';
+                } else {
+                    statusElement.textContent = '✅ ถูกต้อง';
+                    statusElement.style.color = '#38a169';
+                }
+            }
+        }
+
+        function updateResult() {
+            const resultText = document.getElementById('result-text');
+
+            // Generate result in real-time regardless of completion
+            let result = '';
+            let hasAnyContent = false;
+            
+            for (let bat = 1; bat <= 4; bat++) {
+                const warok1Words = [];
+                const warok2Words = [];
+                const saroyWords = [];
+
+                // Get warok 1 words (5 words)
+                for (let word = 1; word <= 5; word++) {
+                    const input = document.querySelector(`[data-bat="${bat}"][data-warok="1"][data-word="${word}"]`);
+                    if (input) {
+                        const value = input.value.trim();
+                        warok1Words.push(value);
+                        if (value) hasAnyContent = true;
+                    }
+                }
+
+                // Get warok 2 words
+                const warok2Count = bat === 4 ? 4 : 2;
+                for (let word = 1; word <= warok2Count; word++) {
+                    const input = document.querySelector(`[data-bat="${bat}"][data-warok="2"][data-word="${word}"]`);
+                    if (input) {
+                        const value = input.value.trim();
+                        warok2Words.push(value);
+                        if (value) hasAnyContent = true;
+                    }
+                }
+
+                // Get saroy words (except bat 4)
+                if (bat !== 4) {
+                    for (let word = 1; word <= 2; word++) {
+                        const input = document.querySelector(`[data-bat="${bat}"][data-warok="3"][data-word="${word}"]`);
+                        if (input) {
+                            const value = input.value.trim();
+                            saroyWords.push(value);
+                            if (value) hasAnyContent = true;
+                        }
+                    }
+                }
+
+                // Only add to result if there are words in this bat
+                const allWordsInBat = [...warok1Words, ...warok2Words, ...saroyWords];
+                const hasWordsInBat = allWordsInBat.some(word => word);
+                
+                if (hasWordsInBat) {
+                    // Format line with proper spacing
+                    if (bat === 4) {
+                        // บาทที่ 4: วรรคหน้าชิดกัน   วรรคหลังชิดกัน
+                        const warok1Text = warok1Words.join('');
+                        const warok2Text = warok2Words.join('');
+                        if (warok1Text || warok2Text) {
+                            result += `${warok1Text}${warok1Text && warok2Text ? '          ' : ''}${warok2Text}`;
+                        }
+                    } else {
+                        // บาทที่ 1,2,3: วรรคหน้าชิดกัน   วรรคหลังชิดกัน คำสร้อยชิดกัน
+                        const warok1Text = warok1Words.join('');
+                        const warok2Text = warok2Words.join('');
+                        const saroyText = saroyWords.join('');
+                        
+                        if (bat === 1 || bat === 3) {
+                            // บาทที่ 1,3: วรรคหลัง 2 คำชิดกัน เคาะ 10 เคาะ แล้วคำสร้อยชิดกัน
+                            if (warok1Text || warok2Text || saroyText) {
+                                result += warok1Text;
+                                if (warok1Text && (warok2Text || saroyText)) result += '          ';
+                                result += warok2Text;
+                                if (warok2Text && saroyText) result += ' ';
+                                result += saroyText;
+                            }
+                        } else {
+                            // บาทที่ 2: วรรคหลัง 2 คำชิดกัน เคาะ 10 เคาะ แล้วไม่มีคำสร้อย
+                            if (warok1Text || warok2Text) {
+                                result += warok1Text;
+                                if (warok1Text && warok2Text) result += '          ';
+                                result += warok2Text;
+                            }
+                        }
+                    }
+                    
+                    // Add newline if not the last bat and there's content
+                    if (bat < 4 && result) result += '\n';
+                }
+            }
+
+            // Always show the result, even if empty
+            if (!hasAnyContent) {
+                // Show empty result when no content
+                result = '';
+            }
+
+            resultText.textContent = result;
+        }
+
+
+
+        // Copy function
+        function copyResult() {
+            const resultText = document.getElementById('result-text').textContent;
+            const copyStatus = document.getElementById('copy-status');
+            const copyButton = document.getElementById('copy-button');
+            
+            if (!resultText.trim()) {
+                copyStatus.textContent = '❌ ไม่มีข้อความให้คัดลอก';
+                copyStatus.style.color = '#e53e3e';
+                setTimeout(() => {
+                    copyStatus.textContent = '';
+                }, 3000);
+                return;
+            }
+            
+            // Use modern clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(resultText).then(() => {
+                    copyStatus.textContent = '✅ คัดลอกสำเร็จแล้ว!';
+                    copyStatus.style.color = '#38a169';
+                    copyButton.textContent = '✅ คัดลอกแล้ว';
+                    
+                    setTimeout(() => {
+                        copyStatus.textContent = '';
+                        copyButton.textContent = '📋 คัดลอกผลลัพธ์โคลงสี่สุภาพ';
+                    }, 3000);
+                }).catch(() => {
+                    fallbackCopy();
+                });
+            } else {
+                fallbackCopy();
+            }
+            
+            function fallbackCopy() {
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = resultText;
+                    textArea.style.position = 'fixed';
+                    textArea.style.left = '-999999px';
+                    textArea.style.top = '-999999px';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    
+                    const successful = document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    if (successful) {
+                        copyStatus.textContent = '✅ คัดลอกสำเร็จแล้ว!';
+                        copyStatus.style.color = '#38a169';
+                        copyButton.textContent = '✅ คัดลอกแล้ว';
+                    } else {
+                        copyStatus.textContent = '❌ ไม่สามารถคัดลอกได้ กรุณาลากคลุมข้อความแล้วกด Ctrl+C';
+                        copyStatus.style.color = '#e53e3e';
+                    }
+                    
+                    setTimeout(() => {
+                        copyStatus.textContent = '';
+                        copyButton.textContent = '📋 คัดลอกผลลัพธ์โคลงสี่สุภาพ';
+                    }, 3000);
+                } catch (err) {
+                    copyStatus.textContent = '❌ ไม่สามารถคัดลอกได้ กรุณาลากคลุมข้อความแล้วกด Ctrl+C';
+                    copyStatus.style.color = '#e53e3e';
+                    setTimeout(() => {
+                        copyStatus.textContent = '';
+                    }, 3000);
+                }
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.word-input');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    validateWord(this);
+                    validateAllSamphus(); // เพิ่มบรรทัดนี้
+                    updateBatStatus();
+                    updateResult();
+                });
+            });
+
+            // Add copy button event listener
+            document.getElementById('copy-button').addEventListener('click', copyResult);
+
+            // Initialize result display
+            updateResult();
+
+            // Initialize SDK
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig: defaultConfig,
+                    onConfigChange: async (config) => {
+                        document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+                        document.getElementById('instruction-text').textContent = config.instruction_text || defaultConfig.instruction_text;
+                    },
+                    mapToCapabilities: (config) => ({
+                        recolorables: [],
+                        borderables: [],
+                        fontEditable: undefined,
+                        fontSizeable: undefined
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["app_title", config.app_title || defaultConfig.app_title],
+                        ["instruction_text", config.instruction_text || defaultConfig.instruction_text]
+                    ])
+                });
+            }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ed17dd666d8949',t:'MTc2MzE5MjM1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
